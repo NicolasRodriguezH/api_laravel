@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\PatientController;
-use App\Http\Controllers\AutenthicateController;
+use App\Http\Controllers\API\AutenthicateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +32,8 @@ Route::delete('pacientes/{patient}', [PatientController::class, 'destroy']); */
 
 
 Route::post('register', [AutenthicateController::class, 'register']);
+Route::post('registerRole', [AutenthicateController::class, 'registerRole']);
+Route::get('showRolesUser', [AutenthicateController::class, 'showRolesUser']);
 
 Route::post('login', [AutenthicateController::class, 'login']);
 
