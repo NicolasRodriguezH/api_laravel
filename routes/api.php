@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\PatientController;
 use App\Http\Controllers\API\AutenthicateController;
+use App\Http\Controllers\API\NurseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,20 +25,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/* Route::get('pacientes', [PatientController::class, 'index']);
-Route::get('pacientes/{patient}', [PatientController::class, 'show']);
-Route::post('pacientes', [PatientController::class, 'store']);
-Route::put('pacientes/{patient}', [PatientController::class, 'update']);
-Route::delete('pacientes/{patient}', [PatientController::class, 'destroy']); */
-
-
 Route::post('register', [AutenthicateController::class, 'register']);
+Route::post('login', [AutenthicateController::class, 'login']);
+
 Route::post('registerRole', [AutenthicateController::class, 'registerRole']);
 Route::get('showRolesUser', [AutenthicateController::class, 'showRolesUser']);
 
-Route::post('login', [AutenthicateController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('logout', [AutenthicateController::class, 'logout']);
     Route::apiResource('patients', PatientController::class);
+    Route::apiResource('nurses', NurseController::class);
 });

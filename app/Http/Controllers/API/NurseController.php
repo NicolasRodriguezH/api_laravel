@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NurseResource;
+use App\Models\Nurse;
 use Illuminate\Http\Request;
 
 class NurseController extends Controller
@@ -14,7 +16,7 @@ class NurseController extends Controller
      */
     public function index()
     {
-        //
+        return NurseResource::collection(Nurse::all());
     }
 
     /**
@@ -25,7 +27,13 @@ class NurseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* Nurse::create($request->all());
+        return response()->json([
+            "res" => true,
+            "msg" => "Enfermero/a creado satisfactoriamente"
+        ], 200); */
+
+        return (New NurseResource(Nurse::create($request->all())));
     }
 
     /**
@@ -34,9 +42,9 @@ class NurseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Nurse $nurse)
     {
-        //
+        return New NurseResource($nurse);
     }
 
     /**
@@ -46,9 +54,13 @@ class NurseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Nurse $nurse)
     {
-        //
+        $nurse->update($request->all());
+        return response()->json([
+            "res" => true,
+            "data" => "registro actualziado correctamente"
+        ]);
     }
 
     /**
@@ -57,8 +69,11 @@ class NurseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Nurse $nurse)
     {
-        //
+        $nurse->delete();
+        return (new NurseResource($nurse))->additional([
+            'msg' => 'Enfermer@ eliminado correctamente'
+        ], 200);
     }
 }
